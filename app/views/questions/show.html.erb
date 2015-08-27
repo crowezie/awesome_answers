@@ -1,0 +1,76 @@
+<h1 class="main"><%= @question.title %></h1>
+<hr>
+<p><%= @question.body %></p>
+<p>View Count: <%= @question.view_count %></p>
+<p>Category: <%= @question.category_name %></p>
+<p>Created by: <%= @question.user_name %></p> on <%= formatted_date(@question.created_at) %>
+
+
+
+<!-- this links to the edit page of the question that shows a form to edit the
+values already saved -->
+<% if can? :edit, @question %>
+  <%= link_to "Edit", edit_question_path(@question), class: "btn btn-info" %>
+<% end %>
+<% if can? :destroy, @question %>
+<%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+<% end %>
+
+<% if @question.locked %>
+<%= link_to "Unlock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning" %>
+<% else %>
+<%= link_to "Lock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning" %>
+<% end %>
+
+<h2 class="sub">New Answer</h2>
+<% if @answer.errors.any? %>
+<ul>
+  <% @answer.errors.full_messages.each do |msg| %>
+  <li><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+<div class="container">
+  <%# @answer (not persisted) -> URL: answers_path (CREATE)  %>
+  <%# @answer (persisted (in DB())) -> URL: answers_path(@answer) (Update)  %>
+
+  <%#= form_for @answer, url: question_answers_path(@question), html: {class:"form-horizontal"} do |f| %>
+  <%# Same as %>
+  <%= form_for [@question, @answer], html: {class:"form-horizontal"} do |f| %>
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.submit "Create Answer", class: "btn btn-primary" %>
+  </div>
+  <% end %>
+</div>
+
+<h2 class="sub">Answers</h2>
+<% @question.answers.each do |ans| %>
+<div class="well">
+<div class="well" id="<%= dom_id(ans) %>">
+  <%= ans.body %>
+  <%= link_to "Delete", question_answer_path(@question, ans), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger" %>
+  <p>Created by: <%= ans.user_name %></p> on <%= formatted_date(ans.created_at) %>
+  <h3>Add a Comment</h3>
+  <%= form_for [ans, @comment], html: {class:"form-horizontal"} do |f|%>
+  <div class="form-group">
+    <%= f.text_area :body, placeholder: "add comment here..", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.submit "Create Comment", class: "btn btn-primary" %>
+  </div>
+  <% end %>
+  <h2 class="sub">Comments</h2>
+  <% ans.comments.each do |com| %>
+  <div class="well">
+    <p>
+      <strong>Comment:</strong>
+      <%= com.body %>
+    </p>
+  </div>
+  <% end %>
+</div>
+<% end %>

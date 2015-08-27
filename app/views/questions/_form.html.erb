@@ -1,0 +1,41 @@
+
+
+
+<% if @question.errors.any? %>
+  <ul>
+    <% @question.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+      <% end %>
+  </ul>
+  <% end %>
+<%= form_for @question, html: {class:"form-horizontal"} do |f| %>
+<!-- If you don't create a label for submit it will make the button lable "Create [Object Class]"
+unless @question is persisted, in which case the label will be "Update [Object Class]" -->
+
+<!-- the form_for helper method can take an ActiveRecord object as a first
+argument for instance, @question which is of class Question. Rails, by convention
+will do the following:
+1. If @question is not persisted in the database, it will make the action for
+the form 'question_path'. It will look for the class name of the passed object
+in this case its Question) and by convention submit to questions_path  -->
+<!-- It will also make the method Post in this case. -->
+<!-- 2. If @question is persisted to the database, it will make the action for the
+form go to question_path (/question/:id) (where :id is the id of @question) and
+it will make the form submit a PATCH request in order for this form to submit to
+the update action in our controller.(Edit/Update)-->
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :category_id %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, {}, class: "form-control"  %>
+  </div>
+  <div class="form-group">
+  <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.sub{
+  color: rgb(8, 114, 159);
+}
+
+.main{
+  color:rgb(187, 0, 0);
+}
