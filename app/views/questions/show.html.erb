@@ -1,26 +1,44 @@
-<h1 class="main"><%= @question.title %></h1>
+<h1><%= @question.title %></h1>
 <hr>
 <p><%= @question.body %></p>
 <p>View Count: <%= @question.view_count %></p>
 <p>Category: <%= @question.category_name %></p>
-<p>Created by: <%= @question.user_name %></p> on <%= formatted_date(@question.created_at) %>
-
-
-
-<!-- this links to the edit page of the question that shows a form to edit the
-values already saved -->
+<p>Created by <%= @question.user_name %> on
+                <%= formatted_date(@question.created_at) %></p>
+<%# this link to the edit page of the question that shows a form to edit the values already saved %>
 <% if can? :edit, @question %>
   <%= link_to "Edit", edit_question_path(@question), class: "btn btn-info" %>
 <% end %>
 <% if can? :destroy, @question %>
-<%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+  <%= link_to "Delete", question_path(@question), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
 <% end %>
 
-<% if @question.locked %>
-<%= link_to "Unlock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning" %>
-<% else %>
-<%= link_to "Lock", lock_question_path(@question), method: :patch, data: {confirm: "Are you sure?"}, class: "btn btn-warning" %>
+<%= link_to (@question.locked ? "Lock" : "Un-lock"),
+            question_path(@question, {question: {locked: !@question.locked}}),
+            class: "btn btn-warning", method: :patch %>
+<% if user_signed_in? %>
+  <% if current_user.liked_question?(@question) %>
+    <%= link_to fa_icon("thumbs-up"),
+                question_like_path(@question, @question.like_for(current_user)),
+                class: "big-icon", title: "Un-Like", method: :delete %>
+  <% else %>
+    <%= link_to fa_icon("thumbs-o-up"), question_likes_path(@question),
+                  class: "big-icon", method: :post %>
+  <% end %>
 <% end %>
+(<%= @question.likes.count %>)
+
+<% if user_signed_in? %>
+  <% if current_user.favorited_question?(@question) %>
+    <%= link_to fa_icon("star"),
+                question_favorite_path(@question, @question.favorite_for(current_user)),
+                class: "big-icon", title: "Un-favorite", method: :delete %>
+  <% else %>
+    <%= link_to fa_icon("star-o"), question_favorites_path(@question),
+                  class: "big-icon", method: :post %>
+  <% end %>
+<% end %>
+(<%= @question.favorites.count %>)
 
 <h2 class="sub">New Answer</h2>
 <% if @answer.errors.any? %>
@@ -55,7 +73,7 @@ values already saved -->
   <%= link_to "Delete", question_answer_path(@question, ans), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger" %>
   <p>Created by: <%= ans.user_name %></p> on <%= formatted_date(ans.created_at) %>
   <h3>Add a Comment</h3>
-  <%= form_for [ans, @comment], html: {class:"form-horizontal"} do |f|%>
+  <%= form_for [ans, Comment.new], html: {class:"form-horizontal"} do |f|%>
   <div class="form-group">
     <%= f.text_area :body, placeholder: "add comment here..", class: "form-control" %>
   </div>

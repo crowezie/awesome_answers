@@ -3,6 +3,12 @@ class Question < ActiveRecord::Base
   belongs_to :user
 
   has_many :answers, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :liking_users, through: :likes, source: :user
+
+  has_many :favorites, dependent: :destroy
+  has_many :favoriting_users, through: :likes, source: :user
+
 
   validates :title, presence: {message: "must be present"},
                     uniqueness: {scope: :body},
@@ -66,6 +72,14 @@ delegate :name, to: :category, prefix: true
 # def category_name
 #   category.name
 # end
+
+def like_for(user)
+  likes.find_by_user_id(user.id)
+end
+
+def favorite_for(user)
+  favorites.find_by_user_id(user.id)
+end
 
   private
 

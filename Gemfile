@@ -34,13 +34,11 @@ gem 'bcrypt', '~> 3.1.7'
 gem "cowsay"
 
 gem "faker"
-gem "interactive_editor"
-gem "awesome_print"
-gem "hirb"
 
 gem "bootstrap-sass"
 gem "kaminari"
 gem "cancancan"
+gem "font-awesome-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,5 +49,10 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem "interactive_editor"
+  gem "awesome_print"
+  gem "hirb"
+  gem "rails-erd"
 
 end

@@ -26,7 +26,6 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-    @comment = Comment.new
   end
 
   # Used to show a page with listing of all the questions in our DB
@@ -65,6 +64,7 @@ class QuestionsController < ApplicationController
     @question.save
     redirect_to questions_path(@question)
   end
+
 
 
 
