@@ -73,7 +73,7 @@ class QuestionsController < ApplicationController
   def question_params
     # this is usig the strong parameters feature in Rails to only allow the Title
     # and body to be updated in the database
-    question_params = params.require(:question).permit([:title, :body, :locked, :category_id])
+    question_params = params.require(:question).permit([:title, :body, {tag_ids: []}, :locked, :category_id])
   end
 
   def find_question
@@ -83,4 +83,5 @@ class QuestionsController < ApplicationController
   def authorize!
       redirect_to root_path, alert: "access denied" unless can? :edit, @question
   end
+
 end

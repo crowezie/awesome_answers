@@ -13,13 +13,14 @@ class Ability
       can :manage, :all?
     end
 
-    can :destroy, Like do |l|
+    can :destroy, [Like, Favorite, Vote] do |l|
       l.user == user
     end
 
-    can :destroy, Favorite do |f|
-      f.user == user
+    can :update, Vote do |v|
+      v.user == user
     end
+
     # Define abilities for the passed in user here. For example:
     #
       # user ||= User.new # guest user (not logged in)

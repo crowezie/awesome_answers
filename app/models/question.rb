@@ -9,6 +9,13 @@ class Question < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :favoriting_users, through: :likes, source: :user
 
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
+
+  has_many :votes, dependent: :destroy
+  has_many :voters, through: :votes, source: :user
+
 
   validates :title, presence: {message: "must be present"},
                     uniqueness: {scope: :body},
@@ -79,6 +86,10 @@ end
 
 def favorite_for(user)
   favorites.find_by_user_id(user.id)
+end
+
+def votes_count
+  votes.select {|v| v.up?}.count - votes.select {|v| v.down?}.count
 end
 
   private

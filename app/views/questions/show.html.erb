@@ -3,6 +3,8 @@
 <p><%= @question.body %></p>
 <p>View Count: <%= @question.view_count %></p>
 <p>Category: <%= @question.category_name %></p>
+<p>Tags: <%= @question.tags.map {|x| x.name}.join(", ") %></p>
+
 <p>Created by <%= @question.user_name %> on
                 <%= formatted_date(@question.created_at) %></p>
 <%# this link to the edit page of the question that shows a form to edit the values already saved %>
@@ -39,6 +41,26 @@
   <% end %>
 <% end %>
 (<%= @question.favorites.count %>)
+
+<% if user_signed_in? %>
+
+<% if current_user_vote.nil? %>
+<%= link_to fa_icon("chevron-up"), question_votes_path(@question, {vote: {up: true}}), class: "big-icon", method: :post %>
+<%= link_to fa_icon("chevron-down"), question_votes_path(@question, {vote: {up: false}}), class: "big-icon", method: :post  %>
+<% elsif current_user_vote.up? %>
+ <%# if user has voted up  %>
+ <%= link_to fa_icon("chevron-circle-up"), question_vote_path(@question, current_user_vote), class: "big-icon", method: :delete %>
+ <%= link_to fa_icon("chevron-down"), question_vote_path(@question, current_user_vote, {vote: {up: false}}), method: :patch, class: "big-icon" %>
+<% else %>
+ <%# if user has voted down  %>
+ <%= link_to fa_icon("chevron-up"), question_vote_path(@question, current_user_vote, {vote: {up: true}}), class: "big-icon",  method: :patch %>
+ <%= link_to fa_icon("chevron-circle-down"), question_vote_path(@question, current_user_vote), method: :delete, class: "big-icon" %>
+
+<% end %>
+<% end %>
+
+<%= @question.votes_count%>
+
 
 <h2 class="sub">New Answer</h2>
 <% if @answer.errors.any? %>
