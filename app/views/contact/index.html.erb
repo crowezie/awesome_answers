@@ -1,29 +1,116 @@
-<h1 id="contact">Contact Us</h1>
 
 
-<%= form_tag "/contact" do %>
-  <div>
-  <%= label_tag :name %>
-  <%= text_field_tag :name %>
-  </div>
-  <div>
-  <%= label_tag :email %>
-  <%= email_field_tag :email %>
-  </div>
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+      <i class="fa fa-envelope-o"></i>
+      Notifications</a></li>
+      <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+        <i class="fa fa-eye"></i>
+        Watching</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+          <div class="row">
+
+            <div class="col-md-4">
+              <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="#">Unread</a></li>
+                <li role="presentation"><a href="#">Participating</a></li>
+                <li role="presentation"><a href="#">All Notifications</a></li>
+              </ul>
+              <hr>
+              <div>
+                <ul class="nav nav-pills nav-stacked small">
+                  <li role="presentation" class="active"><a href="#">CodeCoreYVR/my-books-react</a></li>
+                  <li role="presentation"><a href="#">CodeCoreYVR/other</a></li>
+
+                </div>
+
+              </div>
 
 
-  <%= submit_tag "Contact Us" %>
-<% end %>
+              <div class="col-md-8">
+                <br>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">CodeCoreYVR/my-books-react</h3>
+                  </div>
+                  <div class="panel-body">
+                    Hello here is an issue
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">CodeCoreYVR/january-2015-fundamentals</h3>
+                  </div>
+                  <div class="panel-body">
+                    Hi There this is a notification
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div role="tabpanel" class="tab-pane" id="profile">
+            <div class="row">
+
+              <div class="col-md-4">
+                This is text
+              </div>
+              <div class="col-md-8">
+                This is too
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
 
 
-<h2>Playing with URLs</h2>
-<%= hello_path %>
-<hr>
-<%= hello_url %>
-<hr>
-<!-- <%= greet_path({name: "Tam"}) %> -->
-<%= greet_path("Tam") %>
 
-<hr>
-<%= greet_url({name: "Tam", city: "Burnaby"}) %>
+      <hr>
+
+      <div>
+
+
+        <h1 id="contact">Contact Us</h1>
+
+
+        <%= form_tag "/contact" do %>
+          <div>
+          <%= label_tag :name %>
+          <%= text_field_tag :name %>
+          </div>
+          <div>
+          <%= label_tag :email %>
+          <%= email_field_tag :email %>
+          </div>
+
+
+          <%= submit_tag "Contact Us" %>
+        <% end %>
+
+
+
+        <h2>Playing with URLs</h2>
+        <%= hello_path %>
+        <hr>
+        <%= hello_url %>
+        <hr>
+        <!-- <%= greet_path({name: "Tam"}) %> -->
+        <%= greet_path("Tam") %>
+
+        <hr>
+        <%= greet_url({name: "Tam", city: "Burnaby"}) %>
+        </div>

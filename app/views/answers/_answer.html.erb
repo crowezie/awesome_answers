@@ -1,0 +1,24 @@
+<div class="well" id="<%= dom_id(ans) %>">
+  <h2>Answer:</h2>
+  <%= ans.body %>
+  <%= link_to "Delete", question_answer_path(@question, ans), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm btn-danger", remote: true %>
+  <p>Created by: <%= ans.user_name %></p> on <%= formatted_date(ans.created_at) %>
+  <h3>Add a Comment</h3>
+  <%= simple_form_for [ans, Comment.new], html: {class:"form-horizontal"} do |f|%>
+  <div class="form-group">
+    <%= f.input :body, input_html: {placeholder: "add comment here.."} %>
+  </div>
+  <div class="form-group">
+    <%= f.submit "Create Comment", class: "btn btn-primary" %>
+  </div>
+  <% end %>
+  <h2 class="sub">Comments</h2>
+  <% ans.comments.each do |com| %>
+  <div class="well">
+    <p>
+      <strong>Comment:</strong>
+      <%= com.body %>
+    </p>
+  </div>
+  <% end %>
+  </div>

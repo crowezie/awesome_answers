@@ -1,6 +1,24 @@
 
+<%= simple_form_for (@question || Question.new), html: {class:"form-horizontal"} do |f| %>
+
+  <%= f.input :title, hint: "don't put monkey" %>
+  <%= f.input :body, input_html: {placeholder: "Give more details here"} %>
+  <%= f.input :image %>
+  <%= f.association :category, include_blank: false %>
+  <%= f.association :tags, as: :check_boxes %>
+  <div class="form-group">
+  <%= f.button :submit, class: "btn-primary", data: {disable_with: "saving.."} %>
+  </div>
+
+<% end %>
 
 
+
+
+
+
+
+<!-- <% @question ||= Question.new %>
 <% if @question.errors.any? %>
   <ul>
     <% @question.errors.full_messages.each do |msg| %>
@@ -8,7 +26,7 @@
       <% end %>
   </ul>
   <% end %>
-<%= form_for @question, html: {class:"form-horizontal"} do |f| %>
+<%= form_for (@question || Question.new), html: {class:"form-horizontal"} do |f| %>
 <!-- If you don't create a label for submit it will make the button lable "Create [Object Class]"
 unless @question is persisted, in which case the label will be "Update [Object Class]" -->
 
@@ -23,7 +41,7 @@ in this case its Question) and by convention submit to questions_path  -->
 form go to question_path (/question/:id) (where :id is the id of @question) and
 it will make the form submit a PATCH request in order for this form to submit to
 the update action in our controller.(Edit/Update)-->
-  <div class="form-group">
+  <!-- <div class="form-group">
     <%= f.label :title %>
     <%= f.text_field :title, class: "form-control" %>
   </div>
@@ -45,4 +63,4 @@ the update action in our controller.(Edit/Update)-->
   <div class="form-group">
   <%= f.submit class: "btn btn-primary" %>
   </div>
-<% end %>
+<% end %> -->

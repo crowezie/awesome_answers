@@ -16,6 +16,7 @@ class Question < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voters, through: :votes, source: :user
 
+  mount_uploader :image, ImageUploader
 
   validates :title, presence: {message: "must be present"},
                     uniqueness: {scope: :body},
@@ -42,6 +43,12 @@ end
 
 after_initialize :set_defaults
 before_save :capitalize_title
+
+# def to_param
+#   "#{id}-#{title}".parameterize
+# end
+extend FriendlyId
+friendly_id :title, use: [:slugged, :history]
 
 scope :recent, lambda { order(:created_at).reverse_order }
 scope :recent, -> { order(:created_at).reverse_order }

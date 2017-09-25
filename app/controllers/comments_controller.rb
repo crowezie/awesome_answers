@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
     @answer = Answer.find params[:answer_id]
     @comment.answer = @answer
     if @comment.save
+      CommentsMailer.notify_answer_owner(@comment).deliver_later
       answer_anchor = ActionController::Base.helpers.dom_id(@answer)
       redirect_to question_path(@answer.question, anchor: answer_anchor), notice: "comment created!"
     else
@@ -18,7 +19,10 @@ class CommentsController < ApplicationController
     @answer = Answer.find params[:id]
     @comment = Comment.find params[:id]
     @comment.destroy
-    redirect_to question_path(@comment.answer), notice: "Comment Deleted."
+    respond_to do |format|
+      format.html {redirect_to question_path(@comment.answer), notice: "Comment Deleted."}
+      format.js {render :destroy}
+    end
   end
 
   private

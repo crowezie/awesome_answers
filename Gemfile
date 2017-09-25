@@ -39,6 +39,17 @@ gem "bootstrap-sass"
 gem "kaminari"
 gem "cancancan"
 gem "font-awesome-rails"
+gem "letter_opener", :group => :development
+gem "simple_form"
+gem "quiet_assets"
+gem "friendly_id"
+gem "animate-rails"
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

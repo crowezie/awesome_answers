@@ -1,0 +1,13 @@
+
+  <%# @answer (not persisted) -> URL: answers_path (CREATE)  %>
+  <%# @answer (persisted (in DB())) -> URL: answers_path(@answer) (Update)  %>
+
+  <%#= form_for @answer, url: question_answers_path(@question), html: {class:"form-horizontal"} do |f| %>
+  <%# Same as %>
+  <%= simple_form_for [@question, @answer], remote: true do |f| %>
+    <%= f.input :body %>
+  <div class="form-group">
+    <%= f.submit "Create Answer", class: "btn btn-primary" %>
+  </div>
+  <% end %>
+</div>

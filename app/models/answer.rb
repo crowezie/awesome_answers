@@ -5,6 +5,8 @@ class Answer < ActiveRecord::Base
 
   validates :body, presence: {message: "Answer is required"},
                    uniqueness: {scope: :question_id}
+
+  scope :latest_first, lambda {order("created_at DESC")}
   def user_name
     if user
       user.full_name

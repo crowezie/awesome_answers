@@ -40,7 +40,7 @@ resources :answers, only: [] do
   resources :comments, only: [:create, :destroy]
 end
 
-
+match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   #post "/questions/:question_id/answers" => "answers#create"
   # get "/questions/new" => "questions#new", as: :new_question

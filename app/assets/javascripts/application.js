@@ -13,4 +13,22 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-sprockets
 //= require_tree .
+
+
+
+
+
+
+$(document).ready(function()  {
+
+  $("[href='#home']").on("click", function(event) {
+    event.preventDefault();
+
+    $(".fa-envelope-o").toggleClass("fa-envelope")
+
+}
+    );
+  }
+);

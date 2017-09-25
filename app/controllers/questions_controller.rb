@@ -25,7 +25,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
+    respond_to do |format|
+      @answer = Answer.new
+      format.html {render}
+      format.json {render json: {question: @question, answers: @question.answers} }
+    end
   end
 
   # Used to show a page with listing of all the questions in our DB
@@ -35,6 +39,11 @@ class QuestionsController < ApplicationController
      else
        @questions = Question.order("#{params[:order]}").page(params[:page]).per(PER_PAGE)
      end
+     respond_to do |format|
+       format.json { render json: @questions }
+       format.html { render }
+     end
+    #  @question = Question.new
    end
 
   # GET /questions/:id/edit (e.g. /questions/123/edit)
@@ -43,6 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    @question.slug = nil
     # if updating question is successful
     if @question.update question_params
       #redirecting to the question show page
@@ -73,11 +83,11 @@ class QuestionsController < ApplicationController
   def question_params
     # this is usig the strong parameters feature in Rails to only allow the Title
     # and body to be updated in the database
-    question_params = params.require(:question).permit([:title, :body, {tag_ids: []}, :locked, :category_id])
+    question_params = params.require(:question).permit([:title, :body, {tag_ids: []}, :locked, :category_id, :image])
   end
 
   def find_question
-    @question = Question.find params[:id]
+    @question = Question.friendly.find params[:id]
   end
 
   def authorize!
